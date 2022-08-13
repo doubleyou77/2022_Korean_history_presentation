@@ -5,21 +5,45 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>맞춤법 검사기</title>
+  <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body>
-  <form method="post" action="/">
-    <textarea id="sentence" name="sentence" rows="20" cols="50"><%= sentence%></textarea><br>
-    <button type="submit">검사하기</button>
-  </form>
-  <% if(checkingSentence != undefined) {%>
-  검사 결과
-  <% for(let i = 0; i < checkingSentence.length; i++) { %>
-    <div style="border:solid">
-    <%= checkingSentence[i].token %><br>
-    <%= checkingSentence[i].suggestions %><br><br>
-    <%= checkingSentence[i].info %><br>
-    </div>
-  <% } %>
-  <% } %>
+  <div class="container">
+    <form method="post" action="/">
+      <label class="labels">맞춤법 검사기</label>
+      <div class="textrea">
+        <textarea class="textarea" id="textarea" onkeyup="charCount();" name="sentence" rows="4" cols="37" maxlength="250" minlength="3"><%= sentence%></textarea>
+      </div>
+      <span class="textarea_count" id="textarea_count">총 0자 / 250자</span>
+      <button id="checkButton" type="submit">검사하기</button>
+    </form>
+
+    <% if(checkingSentence != undefined) {%>
+      검사 결과
+      <% for(let i = 0; i < checkingSentence.length; i++) { %>
+        <div id="spellCheck">
+        <%= checkingSentence[i].token %><br>
+        <%= checkingSentence[i].suggestions %><br><br>
+        <%= checkingSentence[i].info %><br>
+        </div>
+      <% } %>
+      <% } %>
+  </div>
+
+  <script>
+    const textarea = document.querySelector('textarea');
+
+    function charCount() {
+      let element = document.getElementById('textarea').value.length;
+      document.getElementById('textarea_count').innerHTML = "총 " + element + "자 / 250자";
+    }
+
+    textarea.addEventListener('keyup', e => {
+      textarea.style.height = "50px";
+      let scrollHeight = e.target.scrollHeight;
+
+      textarea.style.height = `${scrollHeight}px`;
+    })
+  </script>
 </body>
 </html>

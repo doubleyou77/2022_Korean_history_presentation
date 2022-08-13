@@ -5,7 +5,8 @@ const hanspell = require('hanspell');
 const app = express();
 
 app.set('view engine', 'ejs');
-app.use('views', express.static(path.join(__dirname, 'views')));
+app.set('views', __dirname + '/views');
+app.use(express.static(__dirname + '/public'));
 
 app.use(express.urlencoded({ extended: false }));
 
